@@ -51,7 +51,8 @@ extern float bkgdblend;
 extern int loadtype;
 extern int tilemode;
 extern float myscale;
-extern FILE *ifp;
+extern IOBFILE *ifp;
+extern void update_gv(void);
 
 extern int mainplacement;
 extern int helpplacement;
@@ -64,7 +65,12 @@ extern int enumplacement;
 extern int quitplacement;
 
 extern void loadgroup(char *filename);
-extern FILE *get_input_fp( char *filename, int lt );
+extern IOBFILE *get_input_fp( char *filename, int lt );
+
+extern void fl_update_from_dg(void);
+extern void fl_set_bounds(void);
+
+extern int loadstuff(IOBFILE  *myf, char *filename, int lt);
 
 #endif /* HUI_H */
 

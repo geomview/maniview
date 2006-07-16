@@ -19,8 +19,14 @@
  * USA, or visit http://www.gnu.org.
  */
 
+#if HAVE_CONFIG_H
+# include "config.h"
+#endif
+
+#if 0
 static char copyright[] = "Copyright (C) 1992-1998 The Geometry Center\n\
 Copyright (C) 1998-2000 Stuart Levy, Tamara Munzner, Mark Phillips";
+#endif
 
 #include <string.h>
 #include <sys/types.h>
@@ -123,7 +129,7 @@ fl_set_bounds()
   fl_update_from_dg();
 }
 
-ui_init()
+void ui_init()
 {
   char buf[120];
   foreground();
@@ -135,7 +141,7 @@ ui_init()
     FILE *hf = fopen("maniviewhelp", "rb");
 
     if (hf == NULL) {
-      char *line, *delims = "\n";
+      char *line;
       line = getline(maniviewhelpstr);
       while (line) {
         fl_add_browser_line( HelpBrowser, line );
@@ -153,13 +159,14 @@ ui_init()
   }
 }
 
+void
 ui_main_loop()
 {
   fl_show_form(MainForm, mainplacement, TRUE, "Maniview");
   while(1)	{
     fl_check_forms();
-    if (ifp == stdin)
-      if (async_fnextc(ifp, 0) != NODATA) {
+    if (iobfile(ifp) == stdin)
+      if (async_iobfnextc(ifp, 0) != NODATA) {
         loadstuff(ifp, NULL, LOAD_GROUP);
 	}
     if (changed)	{
@@ -196,7 +203,7 @@ gvinit()
 {
     extern char *getline();
     FILE *outf = stdout;
-    char *line, *delims = "\n";
+    char *line;
     line = getline(gvinitstr);
     while (line) {
         fprintf(outf,"%s",line);
@@ -207,7 +214,7 @@ gvinit()
 
 static char geomname[] = "maniview";
 
-update_gv()
+void update_gv(void)
 {
     FILE *outf = stdout;
 
@@ -235,19 +242,20 @@ update_gv()
 	fprintf(outf,"(merge-ap %s {lighting attenmult %g attenmult2 %g attenconst %g})\n",geomname, atk[myindex][0], atk[myindex][1], atk[myindex][6]);
 	changed |= CHANGED;
 	}
-    if (changed & DIRDOM)	{
-      if (tilemode & USER_GEOM)
-	if (dg->geom && dg->geom != dg->ddgeom)	{
-	    Transform t1, t2;
-	    Inst *inst;
-	    TmTranslate(t1, dg->cpoint.x, dg->cpoint.y, dg->cpoint.z);
-	    TmScale(t2, myscale, myscale, myscale);
-	    TmConcat(t2, t1, t1);
-	    /* HACK!! */
-	    inst = (Inst *) dg->geom;
-	    TmCopy(t1, inst->axis);
-	    } 
-      else dg->scale = myscale;
+    if (changed & DIRDOM) {
+	if (tilemode & USER_GEOM) {
+	    if (dg->geom && dg->geom != dg->ddgeom)	{
+		Transform t1, t2;
+		Inst *inst;
+		TmTranslate(t1, dg->cpoint.x, dg->cpoint.y, dg->cpoint.z);
+		TmScale(t2, myscale, myscale, myscale);
+		TmConcat(t2, t1, t1);
+		/* HACK!! */
+		inst = (Inst *) dg->geom;
+		TmCopy(t1, inst->axis);
+	    }
+	} else
+	    dg->scale = myscale;
       }
     if (changed & CHANGED)	{
 	fprintf(outf,"(read geometry {define dghandle {\n");
@@ -262,10 +270,11 @@ update_gv()
     fflush(outf);
 }
 
-   char defaultfilename[] = "3torus.dgp"; 
+char defaultfilename[] = "3torus.dgp"; 
 
-    FILE *ifp;		/* input file pointer; may be stdin */
-main(int argc, char **argv)	
+IOBFILE *ifp;		/* input file pointer; may be stdin */
+
+int main(int argc, char **argv)	
 {
     char *filename = NULL;
 
@@ -273,12 +282,11 @@ main(int argc, char **argv)
 
     if (argc > 1) {
 	if (argv[1][0] == '-')	{
-	    ifp = stdin;
-	    }
-	else {
+	    ifp = iobfileopen(stdin);
+	} else {
 	    filename = argv[1];
-	    }
 	}
+    }
     else filename = defaultfilename;
 
     if (filename) ifp = get_input_fp(filename, loadtype);
@@ -294,6 +302,7 @@ main(int argc, char **argv)
     fl_update_from_dg();
     ui_main_loop();
 
+    return 0;
 }
 
 

@@ -7,3 +7,6 @@ configure
 stamp-h.in stamp-h
 config.h.in config.h
 maniview
+*.lo
+*.la
+.libs

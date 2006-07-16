@@ -1,5 +1,9 @@
 /* Form definition file generated with fdesign. */
 
+#if HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "forms.h"
 #include "controlpanel.h"
 

@@ -1,11 +1,14 @@
 top_geom_srcdir = $(top_srcdir)/../../..
 
-INCLUDES = -I$(top_srcdir)/../../../include $(default_includes) $(XFORMSINCLUDE)
+ACLOCAL_AMFLAGS = -I ../../../m4
 
-LDADD = $(OOGLLIBS)  $(OOGLLIBS)   \
-	$(XFORMSLIBS) \
-	$(XLIBS)     \
-	-lm
+DEFS = -DHAVE_CONFIG_H
+
+INCLUDES = -I$(top_geom_srcdir) \
+ -I$(top_geom_srcdir)/include $(default_includes) $(XFORMSINCLUDE)
+
+LDADD = $(XFORMSLIBS) $(XLIBS) $(OOGLLIB)
+
 
 EXTRA_DIST = .geomview-maniview \
    spaceshipSpace.geom wholecube.geom        \
@@ -26,7 +29,7 @@ endif
 maniview_SOURCES = \
     callbacks.c controlpanel.c maniview.c controlpanel.h gvinit.h \
     maniview.h maniviewhelp.h
-
+maniview_DEPENDENCIES = $(OOGLLIB)
 
 
 .geomview-maniview:
