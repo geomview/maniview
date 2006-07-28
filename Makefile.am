@@ -4,11 +4,12 @@ ACLOCAL_AMFLAGS = -I ../../../m4
 
 DEFS = -DHAVE_CONFIG_H
 
-INCLUDES = -I$(top_geom_srcdir) \
- -I$(top_geom_srcdir)/include $(default_includes) $(XFORMSINCLUDE)
+INCLUDES = -I$(top_geom_builddir) \
+ -I$(top_geom_builddir)/include $(default_includes) $(XFORMSINCLUDE)
 
 LDADD = $(XFORMSLIBS) $(XLIBS) $(OOGLLIB)
 
+man_MANS =
 
 EXTRA_DIST = .geomview-maniview \
    spaceshipSpace.geom wholecube.geom        \
