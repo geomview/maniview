@@ -1,12 +1,14 @@
+*.la
+*.lo
 .deps
+.libs
 Makefile.in Makefile
 aclocal.m4
+autom4te.cache
+config.h.in config.h
 config.log
 config.status
 configure
-stamp-h.in stamp-h
-config.h.in config.h
+libtool
 maniview
-*.lo
-*.la
-.libs
+stamp-h.in stamp-h
