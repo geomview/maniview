@@ -5,10 +5,13 @@
 Makefile.in Makefile
 aclocal.m4
 autom4te.cache
+autom4te.cache
+blah
 config.h.in config.h
 config.log
 config.status
 configure
+libtool
 libtool
 maniview
 stamp-h.in stamp-h
