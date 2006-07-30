@@ -1,27 +1,9 @@
-/* Copyright (C) 1992-1998 The Geometry Center
- * Copyright (C) 1998-2000 Stuart Levy, Tamara Munzner, Mark Phillips
- *
- * This file is part of Geomview.
- * 
- * Geomview is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published
- * by the Free Software Foundation; either version 2, or (at your option)
- * any later version.
- * 
- * Geomview is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with Geomview; see the file COPYING.  If not, write
- * to the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139,
- * USA, or visit http://www.gnu.org.
- */
-/* Header file generated with fdesign. */
+/** Header file generated with fdesign on Sun Jul 30 00:11:16 2006.**/
 
-/**** Callback routines ****/
+#ifndef FD_MainForm_h_
+#define FD_MainForm_h_
 
+/** Callbacks, globals and object handlers **/
 extern void SaveButtonProc(FL_OBJECT *, long);
 extern void DisplayButtonProc(FL_OBJECT *, long);
 extern void InfoButtonProc(FL_OBJECT *, long);
@@ -32,15 +14,11 @@ extern void QuitButtonProc(FL_OBJECT *, long);
 extern void LoadButtonProc(FL_OBJECT *, long);
 
 extern void DisplayProc(FL_OBJECT *, long);
-extern void DisplayProc(FL_OBJECT *, long);
-extern void DisplayProc(FL_OBJECT *, long);
-extern void DisplayProc(FL_OBJECT *, long);
 extern void DisplayOKButtonProc(FL_OBJECT *, long);
 extern void Attenuation2SliderProc(FL_OBJECT *, long);
 extern void Attenuation3SliderProc(FL_OBJECT *, long);
 extern void SoftshadeProc(FL_OBJECT *, long);
 extern void Attenuation1SliderProc(FL_OBJECT *, long);
-extern void DisplayProc(FL_OBJECT *, long);
 
 extern void WorddepthProc(FL_OBJECT *, long);
 extern void RadiusProc(FL_OBJECT *, long);
@@ -53,14 +31,11 @@ extern void DDResetProc(FL_OBJECT *, long);
 extern void DDScaleProc(FL_OBJECT *, long);
 extern void TileOKButtonProc(FL_OBJECT *, long);
 extern void TileModeProc(FL_OBJECT *, long);
-extern void TileModeProc(FL_OBJECT *, long);
 
 extern void InfoOKButtonProc(FL_OBJECT *, long);
 
 extern void LoadOKButtonProc(FL_OBJECT *, long);
 extern void LoadCancelButtonProc(FL_OBJECT *, long);
-extern void LoadProc(FL_OBJECT *, long);
-extern void LoadProc(FL_OBJECT *, long);
 extern void LoadProc(FL_OBJECT *, long);
 extern void LoadShowBrowserProc(FL_OBJECT *, long);
 
@@ -72,9 +47,7 @@ extern void SaveGeomButtonProc(FL_OBJECT *, long);
 extern void SaveGroupButtonProc(FL_OBJECT *, long);
 
 
-
 /**** Forms and Objects ****/
-
 extern FL_FORM *MainForm;
 
 extern FL_OBJECT
@@ -155,7 +128,7 @@ extern FL_OBJECT
         *SaveGroupButton;
 
 
-
 /**** Creation Routine ****/
+extern void create_the_forms(void);
 
-extern void create_the_forms();
+#endif /* FD_MainForm_h_ */
