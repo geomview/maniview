@@ -23,6 +23,7 @@
 
 #include "forms.h"
 #include "controlpanel.h"
+#include "discgrp.h"
 
 #define CHANGED 	1
 #define NEW_SPACE	2
