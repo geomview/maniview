@@ -263,7 +263,7 @@ void update_gv(void)
     if (tilemode & USER_GEOM) {
       GeomGet((Geom *)dg, CR_GEOM, &geom);
       GeomGet((Geom *)dg, DGCR_DDGEOM, &ddgeom);
-      if (geom && geom != ddgeom)	{
+      if (geom && geom != ddgeom) {
 	HPoint3 cpoint;
 	Transform t1, t2;
 

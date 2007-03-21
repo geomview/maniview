@@ -439,36 +439,31 @@ loadstuff(IOBFILE  *myf, char *filename, int lt)
   }
 
   else if (lt & LOAD_GEOM) { 
-    Geom *geom = NULL, *ddgeom = NULL;
+    Geom *geom = NULL;
     Transform t1;
-    GeomGet((Geom *)dg, CR_GEOM, &geom);
-    GeomGet((Geom *)dg, DGCR_DDGEOM, &ddgeom);
-    if ( (geom && geom != ddgeom)) {
-      GeomDelete(geom);
-      GeomSet((Geom *)dg, CR_GEOM, NULL, CR_END);
-    }
-    if ( (geom = GeomFLoad(myf, filename)) == NULL)	{
+
+    if ((geom = GeomFLoad(myf, filename)) == NULL)	{
       fprintf(stderr,"Unable to load file %s\n",filename);
       goto OUT;
     }
-    /* create an inst with geom */
+    /* create an inst with geom, use CR_NOCOPY s.t. the Inst owns geom and
+     * dg owns the Inst.
+     */
     TmIdentity(t1);
-    GeomSet((Geom *)dg, CR_GEOM, 
-	    GeomCreate("inst", CR_GEOM, geom, CR_AXIS, t1, CR_END), CR_END);
+    GeomSet((Geom *)dg, CR_NOCOPY, CR_GEOM, 
+	    GeomCreate("inst", CR_NOCOPY,
+		       CR_GEOM, geom, CR_AXIS, t1, CR_END), CR_END);
     changed |= DIRDOM | CHANGED;
   }
 
   else if (lt & LOAD_CAMGEOM) { 
     Geom *camgeom;
-    GeomGet((Geom *)dg, DGCR_CAMGEOM, &camgeom);
-    if (camgeom) {
-      GeomDelete(camgeom);
-      GeomSet((Geom *)dg, DGCR_CAMGEOM, NULL, CR_END);
-    }
     if ((camgeom = GeomFLoad(myf, filename)) == NULL)	{
       fprintf(stderr,"Unable to load file %s\n",filename);
       goto OUT;
     }
+    GeomSet((Geom *)dg, CR_NOCOPY, DGCR_CAMGEOM, camgeom, CR_END);
+    
     changed |= CHANGED;
   }
   ok = 1;

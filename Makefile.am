@@ -26,11 +26,16 @@ maniview_SOURCES = \
     maniview.h maniviewhelp.h
 maniview_LDADD = $(XFORMS_ALL_LIB) $(OOGLLIB)
 
-.geomview-maniview:
+.geomview-maniview: .geomview
 	echo '(emodule-define "Maniview" "maniview")' > .geomview-maniview
+
+.geomview:
+	echo '(emodule-define "Maniview" "./maniview")' > .geomview
 
 endif
 
+clean-local:
+	rm -f .geomview*
 
 MAINTAINERCLEANFILES = \
   aclocal.m4 config.h.in configure stamp-h.in Makefile.in
