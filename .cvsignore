@@ -1,6 +1,7 @@
 *.la
 *.lo
 .deps
+.geomview
 .libs
 Makefile.in Makefile
 aclocal.m4
@@ -21,3 +22,4 @@ ltmain.sh
 maniview
 missing
 stamp-h.in stamp-h
+stamp-h1
