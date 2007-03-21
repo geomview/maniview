@@ -1,15 +1,10 @@
-top_geom_srcdir = $(top_srcdir)/../../..
-
-ACLOCAL_AMFLAGS = -I ../../../m4
+ACLOCAL_AMFLAGS = -I m4
 
 DEFS = -DHAVE_CONFIG_H
 
-INCLUDES = -I$(top_geom_builddir) \
- -I$(top_geom_builddir)/include $(default_includes) $(XFORMSINCLUDE)
+INCLUDES = -I$(geomviewincludes) $(default_includes) -I$(XFORMS_INCLUDE_PATH)
 
-LDADD = $(XFORMSLIBS) $(XLIBS) $(OOGLLIB)
-
-man_MANS =
+man_MANS = maniview.1
 
 EXTRA_DIST = .geomview-maniview \
    spaceshipSpace.geom wholecube.geom        \
@@ -25,22 +20,17 @@ datagroups_DATA = 120.dgp 3torus.dgp borrom.dgp borrom2.dgp borrom4.dgp \
 if HAVE_XFORMS
 module_PROGRAMS = maniview
 module_DATA = .geomview-maniview
-endif
 
 maniview_SOURCES = \
     callbacks.c controlpanel.c maniview.c controlpanel.h gvinit.h \
     maniview.h maniviewhelp.h
-maniview_DEPENDENCIES = $(OOGLLIB)
-
+maniview_LDADD = $(XFORMS_ALL_LIB) $(OOGLLIB)
 
 .geomview-maniview:
 	echo '(emodule-define "Maniview" "maniview")' > .geomview-maniview
 
-if HAVE_XFORMS
-all-local:
-	$(top_geom_srcdir)/mkmodulesdir $(top_geom_builddir)
-	echo '(emodule-define "Maniview" "src/bin/maniview/maniview")' > $(top_geom_builddir)/modules/.geomview-maniview
 endif
+
 
 MAINTAINERCLEANFILES = \
   aclocal.m4 config.h.in configure stamp-h.in Makefile.in

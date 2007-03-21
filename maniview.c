@@ -32,8 +32,8 @@ Copyright (C) 1998-2000 Stuart Levy, Tamara Munzner, Mark Phillips";
 #include <sys/types.h>
 #include <stdlib.h>
 #include "geom.h"
-#include "discgrpP.h"
-#include "instP.h"
+/*#include "discgrpP.h"*/
+/*#include "instP.h"*/
 #include "maniview.h"
 
 #include "forms.h"
@@ -41,11 +41,11 @@ Copyright (C) 1998-2000 Stuart Levy, Tamara Munzner, Mark Phillips";
 
 char gvinitstr[] =
 #include "gvinit.h"
-;
+  ;
 
 char maniviewhelpstr[] =
 #include "maniviewhelp.h"
-;
+  ;
 
 char *getline(char *s);
 
@@ -71,15 +71,15 @@ int fileplacement = FL_PLACE_MOUSE;
 
 /* magic values for attenuation constants for software shaders 
  * entries: 
-	0	atten1
-	1	atten2
-	2,3	bounds on atten1
-	3,4	bounds on atten2
- */
+ 0	atten1
+ 1	atten2
+ 2,3	bounds on atten1
+ 3,4	bounds on atten2
+*/
 float atk[3][7] = {
-		{.5, 1.0,0.0,1.0,0.0,6.0, 0.0}, 	/* hyperbolic */
-		{0.5, 0.5, 0.0, 2.0, 0.0, 1.0, 0.0}, /* euclidean */
-		{0.5, .3, 0.0, 1.0, 0.0, 1.57, 0.0}}; /*spherical */
+  {.5, 1.0,0.0,1.0,0.0,6.0, 0.0}, 	/* hyperbolic */
+  {0.5, 0.5, 0.0, 2.0, 0.0, 1.0, 0.0}, /* euclidean */
+  {0.5, .3, 0.0, 1.0, 0.0, 1.57, 0.0}}; /*spherical */
 float bkgdblend = 0.0;  /* no background blend */
 float radius[3] = {6.0, 15.0, 4.0};
 float drawradius[3] = {6.0, 15.0, 4.0};
@@ -88,24 +88,36 @@ float depth[3] = {6.0, 15.0, 4.0};
 void
 fl_update_from_dg()
 {
+  HPoint3 cpoint;
+  int enumdepth;
+  float enumdist, drawdist;
+  unsigned flag;
+
   if (dg == NULL ) return;
-  fl_set_positioner_xvalue(DDXYPositioner, dg->cpoint.x);
-  fl_set_positioner_yvalue(DDXYPositioner, dg->cpoint.y);
-  fl_set_dial_value(DDZDial, dg->cpoint.z);
-  fl_set_counter_value(WorddepthCounter, dg->enumdepth);
-  fl_set_slider_value(RadiusSlider, dg->enumdist);
-  fl_set_slider_value(DrawRadiusSlider, dg->drawdist);
+  GeomGet((Geom *)dg, DGCR_CPOINT, &cpoint);
+  GeomGet((Geom *)dg, DGCR_ENUMDEPTH, &enumdepth);
+  GeomGet((Geom *)dg, DGCR_ENUMDIST, &enumdist);
+  GeomGet((Geom *)dg, DGCR_DRAWDIST, &drawdist);
+  GeomGet((Geom *)dg, DGCR_FLAG, &flag);
+
+  fl_set_positioner_xvalue(DDXYPositioner, cpoint.x);
+  fl_set_positioner_yvalue(DDXYPositioner, cpoint.y);
+  fl_set_dial_value(DDZDial, cpoint.z);
+
+  fl_set_counter_value(WorddepthCounter, enumdepth);
+  fl_set_slider_value(RadiusSlider, enumdist);
+  fl_set_slider_value(DrawRadiusSlider, drawdist);
   fl_set_slider_value(DDScaleSlider, myscale);
   fl_set_slider_value(Attenuation1Slider, atk[myindex][0]);
   fl_set_slider_value(Attenuation2Slider, atk[myindex][1]);
   fl_set_slider_value(Attenuation3Slider, atk[myindex][6]);
-  fl_set_button(DirdomButton, dg->flag & DG_DRAWDIRDOM);
-  fl_set_button(DrawGeomButton, dg->flag & DG_DRAWGEOM);
-  fl_set_button(CentercamButton, dg->flag & DG_CENTERCAM);
-  fl_set_button(ShowcamButton, dg->flag & DG_DRAWCAM);
-  fl_set_button(CullzButton, dg->flag & DG_ZCULL);
-  fl_set_button(SaveGeomButton, dg->flag & DG_SAVEDIRDOM);
-  fl_set_button(SaveGroupButton, dg->flag & DG_SAVEBIGLIST);
+  fl_set_button(DirdomButton, flag & DG_DRAWDIRDOM);
+  fl_set_button(DrawGeomButton, flag & DG_DRAWGEOM);
+  fl_set_button(CentercamButton, flag & DG_CENTERCAM);
+  fl_set_button(ShowcamButton, flag & DG_DRAWCAM);
+  fl_set_button(CullzButton, flag & DG_ZCULL);
+  fl_set_button(SaveGeomButton, flag & DG_SAVEDIRDOM);
+  fl_set_button(SaveGroupButton, flag & DG_SAVEBIGLIST);
   fl_set_button(DirichletDomainButton, tilemode & DIRDOM_MODE );
   fl_set_button(UsergeometryButton, tilemode & USER_GEOM );
   fl_set_button(LoadGroupButton, loadtype & LOAD_GROUP );
@@ -168,13 +180,13 @@ ui_main_loop()
     if (iobfile(ifp) == stdin)
       if (async_iobfnextc(ifp, 0) != NODATA) {
         loadstuff(ifp, NULL, LOAD_GROUP);
-	}
+      }
     if (changed)	{
-	update_gv();
-	fl_update_from_dg();
-	changed = 0;
-	}
+      update_gv();
+      fl_update_from_dg();
+      changed = 0;
     }
+  }
 }
 
 char *getline(char *s)
@@ -201,73 +213,81 @@ char *getline(char *s)
 void
 gvinit()
 {
-    extern char *getline();
-    FILE *outf = stdout;
-    char *line;
-    line = getline(gvinitstr);
-    while (line) {
-        fprintf(outf,"%s",line);
-        line = getline(NULL);
-    }
-    fflush(outf);
+  extern char *getline();
+  FILE *outf = stdout;
+  char *line;
+  line = getline(gvinitstr);
+  while (line) {
+    fprintf(outf,"%s",line);
+    line = getline(NULL);
+  }
+  fflush(outf);
 }
 
 static char geomname[] = "maniview";
 
 void update_gv(void)
 {
-    FILE *outf = stdout;
+  FILE *outf = stdout;
+  Geom *geom, *ddgeom;
+  unsigned flag;
+  int attributes;
 
-    if (!dg) return;
-    fprintf(outf,"(progn\n");
+  if (!dg) return;
+  fprintf(outf,"(progn\n");
 
-    /* this is a hack to avoid bad results when trying to fly around
-     * inside a manifold: geomview's default setting makes the geometry,
-     * and not the camera, the "center" of the motion */
-    if (dg->flag & DG_CENTERCAM) 
-	fprintf(outf,"(ui-target c0)\n");
+  GeomGet((Geom *)dg, DGCR_FLAG, &flag);
+  GeomGet((Geom *)dg, DGCR_ATTRIBUTE, &attributes);
+  /* this is a hack to avoid bad results when trying to fly around
+   * inside a manifold: geomview's default setting makes the geometry,
+   * and not the camera, the "center" of the motion */
+  if (flag & DG_CENTERCAM) 
+    fprintf(outf,"(ui-target c0)\n");
 
-    if (changed & NEW_AP) {
-	/* send the light attenuation */
-	fprintf(outf,"(merge-ap %s {lighting attenmult %g attenmult2 %g attenconst %g})\n",geomname, atk[myindex][0], atk[myindex][1], atk[myindex][6]);
-	}
-    if (changed & NEW_SPACE) {
-	if (dg->attributes & DG_HYPERBOLIC) 
-		fprintf(outf,"(space hyperbolic)\n");
-	else if (dg->attributes & DG_EUCLIDEAN) 
-		fprintf(outf,"(space euclidean)\n");
-	else if (dg->attributes & DG_SPHERICAL) 
-		fprintf(outf,"(space spherical)\n");
-	/* fall through to the next case... */
-	fprintf(outf,"(merge-ap %s {lighting attenmult %g attenmult2 %g attenconst %g})\n",geomname, atk[myindex][0], atk[myindex][1], atk[myindex][6]);
-	changed |= CHANGED;
-	}
-    if (changed & DIRDOM) {
-	if (tilemode & USER_GEOM) {
-	    if (dg->geom && dg->geom != dg->ddgeom)	{
-		Transform t1, t2;
-		Inst *inst;
-		TmTranslate(t1, dg->cpoint.x, dg->cpoint.y, dg->cpoint.z);
-		TmScale(t2, myscale, myscale, myscale);
-		TmConcat(t2, t1, t1);
-		/* HACK!! */
-		inst = (Inst *) dg->geom;
-		TmCopy(t1, inst->axis);
-	    }
-	} else
-	    dg->scale = myscale;
+  if (changed & NEW_AP) {
+    /* send the light attenuation */
+    fprintf(outf,"(merge-ap %s {lighting attenmult %g attenmult2 %g attenconst %g})\n",geomname, atk[myindex][0], atk[myindex][1], atk[myindex][6]);
+  }
+  if (changed & NEW_SPACE) {
+    if (attributes & DG_HYPERBOLIC) 
+      fprintf(outf,"(space hyperbolic)\n");
+    else if (attributes & DG_EUCLIDEAN) 
+      fprintf(outf,"(space euclidean)\n");
+    else if (attributes & DG_SPHERICAL) 
+      fprintf(outf,"(space spherical)\n");
+    /* fall through to the next case... */
+    fprintf(outf,"(merge-ap %s {lighting attenmult %g attenmult2 %g attenconst %g})\n",geomname, atk[myindex][0], atk[myindex][1], atk[myindex][6]);
+    changed |= CHANGED;
+  }
+  if (changed & DIRDOM) {
+    if (tilemode & USER_GEOM) {
+      GeomGet((Geom *)dg, CR_GEOM, &geom);
+      GeomGet((Geom *)dg, DGCR_DDGEOM, &ddgeom);
+      if (geom && geom != ddgeom)	{
+	HPoint3 cpoint;
+	Transform t1, t2;
+
+	GeomGet((Geom *)dg, DGCR_CPOINT, &cpoint);
+	TmTranslate(t1, cpoint.x, cpoint.y, cpoint.z);
+	TmScale(t2, myscale, myscale, myscale);
+	TmConcat(t2, t1, t1);
+	GeomSet(geom, CR_AXIS, t1, CR_END);
       }
-    if (changed & CHANGED)	{
-	fprintf(outf,"(read geometry {define dghandle {\n");
-    	GeomFSave((Geom *) dg, outf, (char *)NULL);
-    	fprintf(outf,"}})\n");
-	}
-    /* this needs to go last */
-    if (changed & SOFTSHADE)	{
-	fprintf(outf,"(soft-shader focus %s )\n",softshade ? "on" : "off");
-	}
-    fprintf(outf,")\n");
-    fflush(outf);
+    } else {
+      GeomSet((Geom *)dg, DGCR_SCALE, myscale, CR_END);
+    }
+  }
+  if (changed & CHANGED)	{
+    fprintf(outf,"(read geometry {define dghandle {\n");
+    GeomFSave((Geom *) dg, outf, (char *)NULL);
+    fprintf(outf,"}})\n");
+  }
+  /* this needs to go last */
+  if (changed & SOFTSHADE)	{
+    fprintf(outf,"(soft-shader focus %s )\n",softshade ? "on" : "off");
+  }
+  fprintf(outf,")\n");
+  fflush(outf);
 }
 
 char defaultfilename[] = "3torus.dgp"; 
@@ -276,33 +296,39 @@ IOBFILE *ifp;		/* input file pointer; may be stdin */
 
 int main(int argc, char **argv)	
 {
-    char *filename = NULL;
+  char *filename = NULL;
 
-    ui_init();
+  ui_init();
 
-    if (argc > 1) {
-	if (argv[1][0] == '-')	{
-	    ifp = iobfileopen(stdin);
-	} else {
-	    filename = argv[1];
-	}
+  if (argc > 1) {
+    if (argv[1][0] == '-')	{
+      ifp = iobfileopen(stdin);
+    } else {
+      filename = argv[1];
     }
-    else filename = defaultfilename;
+  }
+  else filename = defaultfilename;
 
-    if (filename) ifp = get_input_fp(filename, loadtype);
-    loadstuff(ifp, filename, loadtype);
-    if (dg == NULL) {
-	filename = defaultfilename;
-        ifp = get_input_fp(filename, loadtype);
-	loadstuff(ifp,  filename, loadtype);
-	}
-    gvinit();
+  if (filename) ifp = get_input_fp(filename, loadtype);
+  loadstuff(ifp, filename, loadtype);
+  if (dg == NULL) {
+    filename = defaultfilename;
+    ifp = get_input_fp(filename, loadtype);
+    loadstuff(ifp,  filename, loadtype);
+  }
+  gvinit();
 
-    update_gv();
-    fl_update_from_dg();
-    ui_main_loop();
+  update_gv();
+  fl_update_from_dg();
+  ui_main_loop();
 
-    return 0;
+  return 0;
 }
 
 
+/*
+ * Local Variables: ***
+ * mode: c ***
+ * c-basic-offset: 2 ***
+ * End: ***
+ */

@@ -7,11 +7,17 @@ aclocal.m4
 autom4te.cache
 autom4te.cache
 blah
+config.guess
 config.h.in config.h
 config.log
 config.status
+config.sub
 configure
+depcomp
+install-sh
 libtool
 libtool
+ltmain.sh
 maniview
+missing
 stamp-h.in stamp-h
