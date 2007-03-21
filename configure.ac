@@ -1,34 +1,31 @@
 AC_PREREQ(2.59)
 AC_INIT(maniview, [2.0.1-rc1], Claus-Justus Heine <Claus.Heine@Mathematik.Uni-Freiburg.DE>)
-AC_CONFIG_AUX_DIR([../../..])
+AC_MSG_RESULT([configuring $PACKAGE_NAME $PACKAGE_VERSION])
+AC_CANONICAL_TARGET([])
 AM_INIT_AUTOMAKE([dist-bzip2 1.9])
 AM_MAINTAINER_MODE
-AC_MSG_RESULT([configuring $PACKAGE $VERSION])
-GEOM_REQUIRE_GEOMVIEW_VERSION($srcdir/../../..,=,1,>=,8)
 AC_PREFIX_DEFAULT(/usr/local/Geomview)
+GV_INIT_GEOMVIEW(=,1,>=,8)
+
+AC_CONFIG_SRCDIR([maniview.c])
+
+AC_PROG_INSTALL
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_LIBTOOL
 
-top_geom_builddir=../../..
-AC_SUBST(top_geom_builddir)
-
-GEOM_CHECK_XFORMS
-AC_SUBST(XFORMSLIBS)
-AC_SUBST(XFORMSINCLUDE)
-AM_CONDITIONAL(HAVE_XFORMS,    test x$have_xforms = xyes)
-
-GEOM_GET_CACHED_VALUE(moduledir)
-AC_SUBST(moduledir)
-
-GEOM_GET_CACHED_VALUE(geomdatadir)
-AC_SUBST(geomdatadir)
-
-GEOM_GET_CACHED_VALUE(OOGLLIB)
-AC_SUBST(OOGLLIB)
-
-GEOM_GET_CACHED_VALUE(XLIBS)
+#
+# Store X library link line in XLIBS
+#
+AC_PATH_XTRA
+XLIBS="$X_LIBS $X_PRE_LIBS -lXt -lXext -lX11 $X_EXTRA_LIBS"
 AC_SUBST(XLIBS)
+AC_CACHE_VAL(ac_cv_XLIBS,[ac_cv_XLIBS="XLIBS='$XLIBS'"])
+
+#
+# Check for the xforms library
+#
+GEOMVIEW_CHECK_PACKAGE(xforms, forms, ${x_libraries}, ${XLIBS} -lXpm -lm, forms.h,,,optional,enabled)
 
 ########################################################################
 
