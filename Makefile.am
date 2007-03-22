@@ -26,11 +26,27 @@ maniview_SOURCES = \
     maniview.h maniviewhelp.h
 maniview_LDADD = $(XFORMS_ALL_LIB) $(OOGLLIB)
 
-.geomview-maniview: .geomview
-	echo '(emodule-define "Maniview" "maniview")' > .geomview-maniview
+EMODULES = .geomview-maniview
 
-.geomview:
-	echo '(emodule-define "Maniview" "./maniview")' > .geomview
+if LOCAL_EMODULE
+homedir = $(HOME)
+home_DATA = $(EMODULES)
+modulepath = $(moduledir)/
+else
+if !GEOMVIEW_QUERY
+modulepath = $(moduledir)/
+module_DATA = $(EMODULES)
+else
+modulepath =
+module_DATA = $(EMODULES)
+endif
+endif
+
+.geomview-maniview: .geomview
+	echo '(emodule-define "Maniview" "$(modulepath)maniview")' > $@
+
+.geomview: Makefile
+	echo '(emodule-define "Maniview" "./maniview")' > $@
 
 endif
 
