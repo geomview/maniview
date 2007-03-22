@@ -20,6 +20,7 @@ libtool
 libtool
 ltmain.sh
 maniview
+maniview-[0-9]*
 missing
 stamp-h.in stamp-h
 stamp-h1
