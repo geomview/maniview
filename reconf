@@ -5,19 +5,8 @@
 # bootstrap a manivew directory that has been checked out using CVS,
 # or to reconfigure a directory from scratch.
 
-# Create aclocal.m4, which has our local macros from m4 subdir
-# plus any automake macros from the system.  We use macros from
-# Geomview's top-level m4 directory.
-aclocal -I ../../../m4
+autoreconf -i
 
-# create 'configure' from 'configure.in'
-autoconf
-
-# make sure the following files are present
-# touch README AUTHORS NEWS ChangeLog
-
-# generate Makefile.in's
-automake -a
-
-# configure (you might need to edit this for your local system)
-./configure  --with-motif=/usr/local/openmotif --cache-file=../../.././config.cache --srcdir=.
+./configure --help
+echo
+echo "Run \`configure\' yourself, with the appropriate options"
