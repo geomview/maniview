@@ -1,5 +1,15 @@
 2007-03-22  Claus-Justus Heine  <Claus.Heine@Mathematik.Uni-Freiburg.DE>
 
+	* .cvsignore: Ignore package archives.
+
+	* m4/geomview.m4:
+	Small fixes (check for -lm, math.h, other minor stuff).
+
+	* .geomview-maniview: Auto-generated.
+
+	* AUTHORS, ChangeLog, Makefile.am, NEWS, configure.ac:
+	Some fine-tuning while switching over to new compilation scheme.
+
 	* m4/geomview.m4, m4/set-prefix.m4: Some fine-tuning
 
 	* Makefile.am, configure.ac: Emodule definition stuff.
