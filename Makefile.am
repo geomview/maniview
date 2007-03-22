@@ -19,7 +19,6 @@ datagroups_DATA = 120.dgp 3torus.dgp borrom.dgp borrom2.dgp borrom4.dgp \
 
 if HAVE_XFORMS
 module_PROGRAMS = maniview
-module_DATA = .geomview-maniview
 
 maniview_SOURCES = \
     callbacks.c controlpanel.c maniview.c controlpanel.h gvinit.h \

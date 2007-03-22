@@ -1,3 +1,134 @@
+2007-03-22  Claus-Justus Heine  <Claus.Heine@Mathematik.Uni-Freiburg.DE>
+
+	* m4/geomview.m4, m4/set-prefix.m4: Some fine-tuning
+
+	* Makefile.am, configure.ac: Emodule definition stuff.
+
+	* m4/geomview.m4: Feature local installation.
+
+	* m4/check-package.m4, m4/geomview.m4: Autoconf madness.
+
+2007-03-21  Claus-Justus Heine  <Claus.Heine@Mathematik.Uni-Freiburg.DE>
+
+	* .cvsignore: Ignore .geomview and stamp-h1
+
+	* Makefile.am, callbacks.c, maniview.c, .geomview-maniview:
+	Use sanitized DiscGroup interface.
+
+	* configure.ac: Set version to 2.0.1-rc2.
+
+	* m4/geomview.m4, maniview.c, .cvsignore, Makefile.am, callbacks.c, configure.ac:
+	Use GeomGet()/GeomSet() instead of accessing private
+	data-structures. Make sure the damn stuff compiles as external module,
+	outside the Geomview source-tree.
+
+	* m4/geomview.m4: Fix unbalanced if-fi
+
+	* configure.ac:
+	Start revision of autoconf system; package shall be compiled outside
+	of the Geomview source directory.
+
+	* m4/geomview.m4: Build system fixes.
+
+	* m4/geomview.m4: Optionally check for the version of Geomview.
+
+	* m4/withtool.m4: CHECK_PROG/PATH_PROG duality.
+
+	* m4/withtool.m4: Absolute/relative path-name support.
+
+2007-03-20  Claus-Justus Heine  <Claus.Heine@Mathematik.Uni-Freiburg.DE>
+
+	* m4/withtool.m4, m4/geomview.m4: Initial revision.
+
+2007-02-10  Claus-Justus Heine  <Claus.Heine@Mathematik.Uni-Freiburg.DE>
+
+	* m4/lf_local.m4:
+	Hopefully LF_LINK_HEADERS() works _NOW_ for in-path and VPATH builds.
+
+	* m4/lf_local.m4: Undo a bug introduced previously by myself.
+
+2006-10-06  Claus-Justus Heine  <Claus.Heine@Mathematik.Uni-Freiburg.DE>
+
+	* m4/lf_local.m4:
+	Prefix fix for header linking was wrong. Correct that.
+
+	* m4/lf_local.m4:
+	Take relative/non relative source locations into account.
+
+2006-07-30  Claus-Justus Heine  <Claus.Heine@Mathematik.Uni-Freiburg.DE>
+
+	* maniview.h: xforms issue.
+
+	* controlpanel.c, controlpanel.fd, controlpanel.h:
+	Re-ran the fdesign program; several button, widges etc. just did not
+	look too good with the newer xforms stuff.
+
+2006-07-28  Claus-Justus Heine  <Claus.Heine@Mathematik.Uni-Freiburg.DE>
+
+	* .cvsignore: The usual ignore blah.
+
+	* .cvsignore: The usual ignore stuff.
+
+	* Makefile.am: automake stuff.
+
+	* configure.in: Renamed to configure.ac
+
+2006-07-27  Claus-Justus Heine  <Claus.Heine@Mathematik.Uni-Freiburg.DE>
+
+	* m4/check-package.m4, m4/frameworks.m4, m4/set-prefix.m4:
+	Initial revision.
+
+2006-07-16  Claus-Justus Heine  <Claus.Heine@Mathematik.Uni-Freiburg.DE>
+
+	* .cvsignore, INSTALL, Makefile.am, callbacks.c, configure.ac, controlpanel.c, maniview.c, maniview.h:
+	Ported to new geomview stuff.
+
+2006-07-15  Claus-Justus Heine  <Claus.Heine@Mathematik.Uni-Freiburg.DE>
+
+	* m4/geom_local.m4: configure.in -> configure.ac
+
+2006-07-14  Claus-Justus Heine  <Claus.Heine@Mathematik.Uni-Freiburg.DE>
+
+	* m4/.cvsignore: * use one shared library (i.e. libgeomview.so)
+	* do not use undocumented stdio internals
+	* src/lib/aclib/fmemopen.c -- fmemopen replacement
+	* src/lib/oogl/utilt/iobuffer.[ch] -- totally buffered input, with seekback (pipes)
+	* a bunch of autoconf changes
+	* OpenGL is optional again
+	* reenable hinge module
+	* reenable flythrough module
+	* reenable cplxview module
+
+2006-06-24  Claus-Justus Heine  <Claus.Heine@Mathematik.Uni-Freiburg.DE>
+
+	* m4/geom_local.m4, m4/lf_local.m4: Fix "underquoted" AC_DEFUN's
+
+2004-02-22  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+	* m4/lf_local.m4: *** empty log message ***
+
+	* m4/Makefile.am: 	* m4/Makefile.am: Remove.
+		* Makefile.am (m4_files): Distribute the m4/*.m4 files.
+
+		* configure.in: Take care to avoid using MS Windows "find"
+		command.  Do not create m4/Makefile.
+
+2001-03-22  Steve M. Robbins  <steve@nyongwa.montreal.qc.ca>
+
+	* m4/geom_local.m4: Make GEOM_FIND_I_OPTION respect $CPPFLAGS.
+
+	Do not set XmNwidth and XmNheight if zero.  This appears to cure the
+	"invisible ToggleButtonWidget" problem seen on linux w/ _some_
+	versions of lesstif.  Confirmation from a motif maven that this is the
+	correct approach is desperately solicited!
+
+	Other tidying up getting ready for a release.
+
+2001-02-11  Mark Phillips  <mbp@geomtech.com>
+
+	* ChangeLog, Makefile.am, configure.in, m4/geom_local.m4:
+	*** empty log message ***
+
 2001-02-11  Steve Robbins  <steve@nyongwa.montreal.qc.ca>
 
 	* configure.in: Make check for XFORMS emit warning only, rather
