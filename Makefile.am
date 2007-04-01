@@ -45,7 +45,7 @@ endif
 	echo '(emodule-define "Maniview" "$(modulepath)maniview")' > $@
 
 .geomview: Makefile
-	echo '(emodule-define "Maniview" "./maniview")' > $@
+	echo '(emodule-define "Maniview" "$(absbuilddir)/maniview")' > $@
 
 endif
 
