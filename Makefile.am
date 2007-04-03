@@ -2,7 +2,11 @@ ACLOCAL_AMFLAGS = -I m4
 
 DEFS = -DHAVE_CONFIG_H
 
-INCLUDES = -I$(geomviewincludes) $(default_includes) -I$(XFORMS_INCLUDE_PATH)
+INCLUDES =\
+ -I$(geomviewincludes)\
+ $(default_includes)\
+ $(X_CFLAGS)\
+ -I$(XFORMS_INCLUDE_PATH)
 
 man_MANS = maniview.1
 
