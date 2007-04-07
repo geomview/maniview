@@ -16,7 +16,14 @@ AC_CACHE_VAL(ac_cv_XLIBS,[ac_cv_XLIBS="XLIBS='$XLIBS'"])
 # Check for the xforms library
 #
 GEOMVIEW_CHECK_PACKAGE(Xpm, Xpm, ${x_libraries}, ${XLIBS},[],[],[],[optional enabled])
-GEOMVIEW_CHECK_PACKAGE(xforms, forms, ${x_libraries}, ${XLIBS} ${XPM_LIB} -lm, forms.h,["'${includedir} ${x_includes:+-I${x_includes}/X11}'"],[${X_CFLAGS}],[required enabled])
+if test -n "${x_includes}"; then
+  X_INCLUDES_X11="-I${x_includes}/X11"
+else
+  X_INCLUDES_X11="-I${includedir}/X11"
+fi
+AC_SUBST(X_INCLUDES_X11)
+GEOMVIEW_CHECK_PACKAGE(xforms, forms, ${x_libraries}, ${XLIBS} ${XPM_LIB} -lm, forms.h,["'${includedir} ${X_INCLUDES_X11}'"],[${X_CFLAGS}],[required enabled])
+
 
 ########################################################################
 
