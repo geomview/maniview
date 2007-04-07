@@ -15,11 +15,11 @@ AC_CACHE_VAL(ac_cv_XLIBS,[ac_cv_XLIBS="XLIBS='$XLIBS'"])
 #
 # Check for the xforms library
 #
-GEOMVIEW_CHECK_PACKAGE(Xpm, Xpm, ${x_libraries}, ${XLIBS},,,,optional,enabled)
-GEOMVIEW_CHECK_PACKAGE(xforms, forms, ${x_libraries}, ${XLIBS} ${XPM_LIB} -lm, forms.h,,,optional,enabled)
-
-GEOMVIEW_RESULT
+GEOMVIEW_CHECK_PACKAGE(Xpm, Xpm, ${x_libraries}, ${XLIBS},[],[],[],[optional enabled])
+GEOMVIEW_CHECK_PACKAGE(xforms, forms, ${x_libraries}, ${XLIBS} ${XPM_LIB} -lm, forms.h,["'${includedir} ${x_includes:+-I${x_includes}/X11}'"],[${X_CFLAGS}],[required enabled])
 
 ########################################################################
+
+GEOMVIEW_RESULT
 
 AC_OUTPUT(Makefile)

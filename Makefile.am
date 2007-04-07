@@ -5,8 +5,7 @@ DEFS = -DHAVE_CONFIG_H
 INCLUDES =\
  -I$(geomviewincludes)\
  $(default_includes)\
- $(X_CFLAGS)\
- -I$(XFORMS_INCLUDE_PATH)
+ $(XFORMS_ALL_INCLUDES)
 
 man_MANS = maniview.1
 
