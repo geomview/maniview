@@ -2,5 +2,128 @@ This is maniview, a Geomview module for viewing 3D manifolds.  It was
 written by Charlie Gunn (gunn@geomview.org) at the University of
 Minnesota Geometry Center.
 
-See the file INSTALL for instructions on configuring, compiling,
-and installing it.
+Contents
+--------
+  Description
+  Required Packages
+  Installation
+  History
+
+================================================================================
+
+Description
+-----------
+This is the `maniview' emodule. `emodules' are kind of plugins which
+extend the functionality of Geomview (an interactive 3d viewing
+program). Geomview is available separately from Sourceforge. Please
+see www.geomview.org for more information.
+
+Required Packages
+-----------------
+You need the XForms library to compile the maniview emodule. XForms is
+available from
+
+http://www.nongnu.org/xforms/
+
+Also, as this is an extension module for Geomview, you need also to
+install Geomview; you have to do this first. See
+
+http://www.geomview.org/ (aka http://geomview.sourceforge.net/)
+
+Installation
+------------
+  Quick
+  Local Installation
+  Global Installation
+  Special Switches
+
+Quick
+~~~~~
+You have to install the XForms library and Geomview first; afterwards
+you can install this package like you would install any other GNU
+autoconf based package. See the file ./INSTALL for generic
+installation instructions.
+
+Quick install instructions: if Geomview and the XForms library were
+installed in their default locations, then all you need to do is
+
+./configure --prefix=PREFIX && make install
+
+to configure, compile and install the emodule. This, however, requires
+that you have write permissions for `PREFIX/libexec/geomview/' (were
+PREFIX defaults to `/usr/local/', if the `--prefix' option has not been
+specified).
+
+Local Installation
+~~~~~~~~~~~~~~~~~~
+To install the maniview emodule locally, run configure with the
+`--enable-local-emodule' switch:
+
+./configure --prefix=PREFIX --enable-local-emodule && make install
+
+This still will install the binary under `PREFIX/libexec/geomview/',
+but writes the emodule definition into the file
+
+~/.geomview-maniview
+
+were Geomview will find it. So, for a local installation you would --
+perhaps -- do the following:
+
+./configure --prefix=${HOME}/software --enable-local-emodule && make install
+
+This would produce the two files
+
+${HOME}/software/libexec/geomview/maniview
+${HOME}/.geomview-maniview
+
+`.geomview-maniview' will contain the full path to the `maniview' binary
+in this case so that nothing more should be needed to call the maniview
+emodule from within Geomview.
+
+Global Installation
+~~~~~~~~~~~~~~~~~~~
+Just configure Geomview and gvemod-maniview with the same `--prefix'
+option; e.g. `--prefix=/usr'. This should work.
+
+If you run configure with the switch `--enable-geomview-query' then
+the installed version of Geomview -- if one is found -- will be
+queried for the proper location for the emodule binaries and
+definition files. Normally, this should not change anything, only when
+Geomview is installed in a strange place.
+
+Consider you had installed Geomview locally in your home-directory
+below `${HOME}/Geomview' (by configuring the Geomview package with
+`--prefix=${HOME}/Geomview'), and the XForms library below the prefix
+`${HOME}/software/', then you could run configure like follows:
+
+./configure --prefix=${HOME}/software --enable-geomview-query && make install
+
+This would result in auto-detection of the XForms library and produce
+the two files
+
+${HOME}/Geomview/libexec/geomview/maniview
+${HOME}/Geomview/libexec/geomview/.geomview-maniview
+
+and again, this should result in a working configuration.
+
+Special Switches
+~~~~~~~~~~~~~~~~
+
+The configure script features some command line switches to fine-tune
+the locations where it searches for needed packages (i.e. Geomview,
+XForms, Xpm). Please use `configure --help' to get help about these.
+
+HISTORY
+-------
+The Geomview project began in the summer of 1988 at the University of
+Minnesota's Geometry Center with the work of Pat Hanrahan on a viewing
+program called MinneView.  Shortly thereafter Charlie Gunn begin
+developing OOGL in conjunction with MinneView.  In 1991 a team of
+programmers headed by Mark Phillips, Stuart Levy, and Tamara Munzner
+set about developing a revised version of OOGL and a new viewer which
+they named Geomview.  In the time since then, many people have
+contributed, including (in alphabetical order): Steve Anderson, Rex
+Dieter, Celeste Fowler, Claus-Justus Heine, Todd Kaplan, Daniel Krech,
+Mario Lopez, Daeron Meyer, Mark Meuer, Steve Robbins, Timothy Rowley,
+Nathaniel Thurston, Scott Wisdom, Lloyd Wood and others.
+
