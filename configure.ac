@@ -24,7 +24,7 @@ fi
 AC_SUBST(X_INCLUDES_X11)
 GEOMVIEW_CHECK_PACKAGE([xforms],
   [forms],[${x_libraries}],[${XLIBS} ${XPM_LIB} -lm],
-  [forms.h],["'${includedir} -I${includedir}/xforms ${X_INCLUDES_X11}'"],
+  [forms.h],["'${oldincludedir} -I${oldincludedir}/xforms ${X_INCLUDES_X11}'"],
   [${X_CFLAGS}],[required enabled])
 
 ########################################################################
