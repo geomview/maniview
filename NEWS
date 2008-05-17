@@ -1,3 +1,6 @@
+2.0.3 May, 2008
+  Adjust some configure checks, nothing special concerning _this_ module.
+
 2.0.2, May 2007
   Just an update to the most recent Geomview autoconf changes.
 

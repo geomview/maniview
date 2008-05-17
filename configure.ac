@@ -1,4 +1,4 @@
-AC_INIT(maniview, [2.0.2], Claus-Justus Heine <Claus.Heine@Mathematik.Uni-Freiburg.DE>)
+AC_INIT(maniview, [2.0.3], Claus-Justus Heine <Claus.Heine@Mathematik.Uni-Freiburg.DE>)
 
 GV_INIT_GEOMVIEW(=,1,>=,9)
 
