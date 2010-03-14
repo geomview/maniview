@@ -47,7 +47,7 @@ char maniviewhelpstr[] =
 #include "maniviewhelp.h"
   ;
 
-char *getline(char *s);
+static char *mygetline(char *s);
 
 /* globals */
 DiscGrp *dg = NULL;
@@ -154,10 +154,10 @@ void ui_init()
 
     if (hf == NULL) {
       char *line;
-      line = getline(maniviewhelpstr);
+      line = mygetline(maniviewhelpstr);
       while (line) {
         fl_add_browser_line( HelpBrowser, line );
-        line = getline(NULL);
+        line = mygetline(NULL);
       }
       fl_set_browser_topline( HelpBrowser, 1 );
     } else {
@@ -189,7 +189,7 @@ ui_main_loop()
   }
 }
 
-char *getline(char *s)
+static char *mygetline(char *s)
 {
   static char *p;
   char *first;
@@ -213,13 +213,12 @@ char *getline(char *s)
 void
 gvinit()
 {
-  extern char *getline();
   FILE *outf = stdout;
   char *line;
-  line = getline(gvinitstr);
+  line = mygetline(gvinitstr);
   while (line) {
     fprintf(outf,"%s",line);
-    line = getline(NULL);
+    line = mygetline(NULL);
   }
   fflush(outf);
 }
